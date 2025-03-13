@@ -556,7 +556,7 @@ class GoogleSheetsHandler:
                     {}
                 )
 
-            # Группа 3: Длина заголовка - упрощаем формулы, используя TEXT_LENGTH вместо CUSTOM_FORMULA
+            # Группа 3: Длина заголовка - используем CUSTOM_FORMULA для проверки длины текста
             title_length_rules = [
                 # Format Title Length > 30
                 {
@@ -565,8 +565,8 @@ class GoogleSheetsHandler:
                             "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
                             "booleanRule": {
                                 "condition": {
-                                    "type": "TEXT_LONGER_THAN",
-                                    "values": [{"userEnteredValue": "30"}]
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=LEN(B2)>30"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.4, "green": 0.2, "blue": 0.6}
@@ -582,8 +582,8 @@ class GoogleSheetsHandler:
                             "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
                             "booleanRule": {
                                 "condition": {
-                                    "type": "TEXT_SHORTER_THAN",
-                                    "values": [{"userEnteredValue": "5"}]
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=LEN(B2)<5"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.2, "green": 0.5, "blue": 0.2}
