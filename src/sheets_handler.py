@@ -820,18 +820,27 @@ class GoogleSheetsHandler:
                         }
                     }
                 },
-                # Если ничего не упоминается - темно-желтый (чтобы не накладывалось форматирование)
+                # Если ничего не упоминается - темно-желтый (используем другой подход без NOT)
                 {
                     "addConditionalFormatRule": {
                         "rule": {
                             "ranges": [{"sheetId": sheet_id, "startColumnIndex": 4, "endColumnIndex": 5}],
                             "booleanRule": {
                                 "condition": {
-                                    "type": "NOT",
-                                    "conditionValues": [{
-                                        "type": "TEXT_CONTAINS",
-                                        "values": [{"userEnteredValue": "Python"}, {"userEnteredValue": "JavaScript"}, {"userEnteredValue": "Java"}, {"userEnteredValue": "C++"}, {"userEnteredValue": "PHP"}, {"userEnteredValue": "Junior"}, {"userEnteredValue": "junior"}, {"userEnteredValue": "Middle"}, {"userEnteredValue": "middle"}, {"userEnteredValue": "Senior"}, {"userEnteredValue": "senior"}]
-                                    }]
+                                    "type": "TEXT_NOT_CONTAINS",
+                                    "values": [
+                                        {"userEnteredValue": "Python"}, 
+                                        {"userEnteredValue": "JavaScript"}, 
+                                        {"userEnteredValue": "Java"}, 
+                                        {"userEnteredValue": "C++"}, 
+                                        {"userEnteredValue": "PHP"}, 
+                                        {"userEnteredValue": "Junior"}, 
+                                        {"userEnteredValue": "junior"}, 
+                                        {"userEnteredValue": "Middle"}, 
+                                        {"userEnteredValue": "middle"}, 
+                                        {"userEnteredValue": "Senior"}, 
+                                        {"userEnteredValue": "senior"}
+                                    ]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.5, "green": 0.4, "blue": 0.1},
@@ -1085,7 +1094,7 @@ class GoogleSheetsHandler:
                 },
                 
                 # Форматирование уровней разработчика
-                # Format Junior level (фиолетовый)
+                # Format Junior level (фиолетовый - по запросу)
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -1096,14 +1105,14 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "junior"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 0.8, "green": 0.6, "blue": 0.9},
+                                    "backgroundColor": {"red": 0.6, "green": 0.4, "blue": 0.8},
                                     "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
                                 }
                             }
                         }
                     }
                 },
-                # Format Middle level (жёлтый)
+                # Format Middle level (жёлтый - по запросу)
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -1114,14 +1123,14 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "middle"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 1, "green": 0.9, "blue": 0.4},
+                                    "backgroundColor": {"red": 1, "green": 0.9, "blue": 0.2},
                                     "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
                                 }
                             }
                         }
                     }
                 },
-                # Format Senior level (зелёный)
+                # Format Senior level (зелёный - по запросу)
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -1132,7 +1141,7 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "senior"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 0.5, "green": 0.9, "blue": 0.5},
+                                    "backgroundColor": {"red": 0.3, "green": 0.8, "blue": 0.3},
                                     "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
                                 }
                             }
