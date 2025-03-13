@@ -850,11 +850,8 @@ class GoogleSheetsHandler:
                             "ranges": [{"sheetId": sheet_id, "startColumnIndex": 6, "endColumnIndex": 8}],
                             "booleanRule": {
                                 "condition": {
-                                    "type": "AND",
-                                    "conditions": [
-                                        {"type": "NUMBER_LESS_THAN", "values": [{"userEnteredValue": "2000"}]},
-                                        {"type": "TEXT_EQ", "values": [{"userEnteredValue": "RUB"}], "relativeCellReference": {"columnOffset": 2}}
-                                    ]
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(G2<2000,I2=\"RUB\")"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.5, "green": 0.2, "blue": 0.4},
@@ -871,11 +868,8 @@ class GoogleSheetsHandler:
                             "ranges": [{"sheetId": sheet_id, "startColumnIndex": 6, "endColumnIndex": 8}],
                             "booleanRule": {
                                 "condition": {
-                                    "type": "AND",
-                                    "conditions": [
-                                        {"type": "NUMBER_BETWEEN", "values": [{"userEnteredValue": "2000"}, {"userEnteredValue": "100000"}]},
-                                        {"type": "TEXT_EQ", "values": [{"userEnteredValue": "RUB"}], "relativeCellReference": {"columnOffset": 2}}
-                                    ]
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(G2>=2000,G2<=100000,I2=\"RUB\")"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.5, "green": 0.4, "blue": 0.1},
@@ -892,11 +886,8 @@ class GoogleSheetsHandler:
                             "ranges": [{"sheetId": sheet_id, "startColumnIndex": 6, "endColumnIndex": 8}],
                             "booleanRule": {
                                 "condition": {
-                                    "type": "AND",
-                                    "conditions": [
-                                        {"type": "NUMBER_GREATER", "values": [{"userEnteredValue": "100000"}]},
-                                        {"type": "TEXT_EQ", "values": [{"userEnteredValue": "RUB"}], "relativeCellReference": {"columnOffset": 2}}
-                                    ]
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(G2>100000,I2=\"RUB\")"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.1, "green": 0.2, "blue": 0.5},
