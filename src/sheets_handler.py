@@ -361,6 +361,60 @@ class GoogleSheetsHandler:
                         }
                     }
                 },
+                # Format Junior level (фиолетовый)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 5, "endColumnIndex": 6}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_EQ",
+                                    "values": [{"userEnteredValue": "junior"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.8, "green": 0.6, "blue": 0.9},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Middle level (жёлтый)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 5, "endColumnIndex": 6}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_EQ",
+                                    "values": [{"userEnteredValue": "middle"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 1, "green": 0.9, "blue": 0.4},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Senior level (зелёный)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 5, "endColumnIndex": 6}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_EQ",
+                                    "values": [{"userEnteredValue": "senior"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.9, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
+                            }
+                        }
+                    }
+                },
                 # Format high RUB salaries
                 {
                     "addConditionalFormatRule": {
