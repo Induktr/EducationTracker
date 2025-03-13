@@ -731,6 +731,61 @@ class GoogleSheetsHandler:
                             }
                         }
                     }
+                },
+                
+                # Format Title Length > 30 (тёмный с оттенком фиолетового)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=LEN(B:B)>30"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.4, "green": 0.2, "blue": 0.6},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Title Length < 30 (тёмный с оттенком жёлтого)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(LEN(B:B)<=30,LEN(B:B)>=5)"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.6, "green": 0.5, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Title Length < 5 (тёмный с оттенком зелёного)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=LEN(B:B)<5"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.2, "green": 0.5, "blue": 0.2},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
                 }
             ]
 
