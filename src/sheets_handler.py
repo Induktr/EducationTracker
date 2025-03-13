@@ -495,6 +495,297 @@ class GoogleSheetsHandler:
                             }
                         }
                     }
+                },
+                
+                # Location formatting rules
+                # Format Москва (тёмный с оттенком фиолетового)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Москва"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.4, "green": 0.2, "blue": 0.6},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Санкт-Петербург (тёмный с оттенком жёлтого)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Санкт-Петербург"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.6, "green": 0.5, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format США (тёмный с оттенком зелёного)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "США"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.2, "green": 0.5, "blue": 0.2},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Барнаул (яркий с оттенком жёлтого и зелёного)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Барнаул"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.8, "green": 0.9, "blue": 0.3},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Алматы (тёмный с оттенком синего)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Алматы"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.3, "blue": 0.7},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Армения (тёмный с оттенком красного)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Армения"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.6, "green": 0.1, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Минск (тёмный с оттенком зелёного и синего)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Минск"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.4, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Екатеринбург (тёмный с оттенком фиолетового и синего)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Екатеринбург"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.3, "green": 0.1, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Белгород (тёмный с оттенком красного и зелёного)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Белгород"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.3, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Тбилиси (тёмный с оттенком жёлтого и красного)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Тбилиси"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.7, "green": 0.4, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Сербия (тёмный с оттенком синего и жёлтого)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Сербия"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.2, "green": 0.3, "blue": 0.6},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Астана (тёмный с оттенком розового)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Астана"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.6, "green": 0.2, "blue": 0.4},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Всеволожск (тёмный с оттенком жёлтого и розового)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Всеволожск"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.7, "green": 0.5, "blue": 0.4},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                # Format Title Length > 30 (тёмный с оттенком фиолетового)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=LEN(B:B)>30"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.4, "green": 0.2, "blue": 0.6},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Title Length < 30 (тёмный с оттенком жёлтого)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(LEN(B:B)<=30,LEN(B:B)>=5)"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.6, "green": 0.5, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Format Title Length < 5 (тёмный с оттенком зелёного)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=LEN(B:B)<5"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.2, "green": 0.5, "blue": 0.2},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
                 }
             ]
 
