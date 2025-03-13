@@ -606,7 +606,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=AND(LEN(B2)<=30,LEN(B2)>=5)"}]
+                                    "values": [{"userEnteredValue": "=AND(LEN(B2)<=30;LEN(B2)>=5)"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.5, "green": 0.4, "blue": 0.1},
@@ -662,7 +662,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=AND(LEN(C2)>=8,LEN(C2)<=15)"}]
+                                    "values": [{"userEnteredValue": "=AND(LEN(C2)>=8;LEN(C2)<=15)"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.1, "green": 0.4, "blue": 0.2},
@@ -700,7 +700,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=AND(MID(A2,5,1)=\"5\",RIGHT(A2,1)=\"5\")"}]
+                                    "values": [{"userEnteredValue": "=AND(MID(A2;5;1)=\"5\";RIGHT(A2;1)=\"5\")"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.6, "green": 0.3, "blue": 0.8},
@@ -820,7 +820,7 @@ class GoogleSheetsHandler:
                         }
                     }
                 },
-                # Если ничего не упоминается - темно-желтый (используем другой подход без NOT)
+                # Если ничего не упоминается - темно-желтый (используем TEXT_CONTAINS вместо TEXT_NOT_CONTAINS)
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -828,19 +828,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "TEXT_NOT_CONTAINS",
-                                    "values": [
-                                        {"userEnteredValue": "Python"}, 
-                                        {"userEnteredValue": "JavaScript"}, 
-                                        {"userEnteredValue": "Java"}, 
-                                        {"userEnteredValue": "C++"}, 
-                                        {"userEnteredValue": "PHP"}, 
-                                        {"userEnteredValue": "Junior"}, 
-                                        {"userEnteredValue": "junior"}, 
-                                        {"userEnteredValue": "Middle"}, 
-                                        {"userEnteredValue": "middle"}, 
-                                        {"userEnteredValue": "Senior"}, 
-                                        {"userEnteredValue": "senior"}
-                                    ]
+                                    "values": [{"userEnteredValue": "Python"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.5, "green": 0.4, "blue": 0.1},
@@ -878,7 +866,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=AND(G2>=2000,G2<=100000,I2=\"RUB\")"}]
+                                    "values": [{"userEnteredValue": "=AND(G2>=2000;G2<=100000;I2=\"RUB\")"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.5, "green": 0.4, "blue": 0.1},
@@ -990,7 +978,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=AND(TODAY()-DATE(LEFT(K2,4),MID(K2,6,2),MID(K2,9,2))>7,TODAY()-DATE(LEFT(K2,4),MID(K2,6,2),MID(K2,9,2))<=14)"}]
+                                    "values": [{"userEnteredValue": "=AND(TODAY()-DATE(LEFT(K2;4);MID(K2;6;2);MID(K2;9;2))>7;TODAY()-DATE(LEFT(K2;4);MID(K2;6;2);MID(K2;9;2))<=14)"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.6, "green": 0.7, "blue": 0.2},
