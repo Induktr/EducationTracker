@@ -216,13 +216,13 @@ class GoogleSheetsHandler:
             values = result.get('values', [])
             # Skip header row and extract job IDs
             ids = [row[0] for row in values[1:] if row]
-            
+
             logger.log_job_processing(
                 "sheets_get_ids",
                 "success",
                 {"found_ids_count": len(ids)}
             )
-            
+
             return ids
 
         except HttpError as e:
@@ -232,7 +232,7 @@ class GoogleSheetsHandler:
                 {}
             )
             return []  # Возвращаем пустой список вместо вызова исключения
-            
+
     def get_existing_job_data(self) -> Dict[str, Dict[str, Any]]:
         """Get more complete data about existing jobs for better deduplication"""
         try:
@@ -246,7 +246,7 @@ class GoogleSheetsHandler:
             values = result.get('values', [])
             if not values or len(values) <= 1:  # Только заголовки или пусто
                 return {}
-                
+
             # Пропускаем заголовок (строка 1)
             job_data = {}
             for row in values[1:]:
@@ -263,15 +263,15 @@ class GoogleSheetsHandler:
                         'salary_currency': row[8] if len(row) > 8 else '',
                         'apply_url': row[9] if len(row) > 9 else ''
                     }
-                    
+
             logger.log_job_processing(
                 "sheets_get_job_data",
                 "success",
                 {"found_jobs_count": len(job_data), "data_fields": ["title", "company", "location", "description", "salary"]}
             )
-            
+
             return job_data
-            
+
         except HttpError as e:
             logger.log_error(
                 "sheets_get_job_data_error",
@@ -496,7 +496,7 @@ class GoogleSheetsHandler:
                         }
                     }
                 },
-                
+
                 # Location formatting rules
                 # Format Москва (тёмный с оттенком фиолетового)
                 {
@@ -732,7 +732,7 @@ class GoogleSheetsHandler:
                         }
                     }
                 },
-                
+
                 # Format Title Length > 30 (тёмный с оттенком фиолетового)
                 {
                     "addConditionalFormatRule": {
@@ -741,7 +741,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=LEN(B2)>30"}]
+                                    "values": [{"userEnteredValue": "=LEN(B1:B)>30"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.4, "green": 0.2, "blue": 0.6},
@@ -759,7 +759,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=AND(LEN(B2)<=30,LEN(B2)>=5)"}]
+                                    "values": [{"userEnteredValue": "=AND(LEN(B1:B)<=30,LEN(B1:B)>=5)"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.6, "green": 0.5, "blue": 0.1},
@@ -777,7 +777,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=LEN(B2)<5"}]
+                                    "values": [{"userEnteredValue": "=LEN(B1:B)<5"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.2, "green": 0.5, "blue": 0.2},
