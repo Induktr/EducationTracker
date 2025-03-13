@@ -741,7 +741,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=LEN(B1:B)>30"}]
+                                    "values": [{"userEnteredValue": "=LEN(B)>30"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.4, "green": 0.2, "blue": 0.6},
@@ -759,7 +759,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=AND(LEN(B1:B)<=30,LEN(B1:B)>=5)"}]
+                                    "values": [{"userEnteredValue": "=AND(LEN(B)<=30,LEN(B)>=5)"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.6, "green": 0.5, "blue": 0.1},
@@ -777,7 +777,7 @@ class GoogleSheetsHandler:
                             "booleanRule": {
                                 "condition": {
                                     "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=LEN(B1:B)<5"}]
+                                    "values": [{"userEnteredValue": "=LEN(B)<5"}]
                                 },
                                 "format": {
                                     "backgroundColor": {"red": 0.2, "green": 0.5, "blue": 0.2},
