@@ -341,8 +341,44 @@ class GoogleSheetsHandler:
                 )
                 return
 
-            # Formatting rules
-            requests = [
+            # Попробуем сначала очистить все существующие правила форматирования
+            try:
+                # Получим список всех правил
+                rules_response = self.service.spreadsheets().get(
+                    spreadsheetId=self.sheet_id,
+                    ranges=[f"{JOBS_WORKSHEET}"],
+                    includeGridData=False
+                ).execute()
+
+                # Очищаем все правила
+                clear_requests = [{
+                    "deleteConditionalFormatRule": {
+                        "sheetId": sheet_id,
+                        "index": 0
+                    }
+                }]
+
+                self.service.spreadsheets().batchUpdate(
+                    spreadsheetId=self.sheet_id,
+                    body={"requests": clear_requests}
+                ).execute()
+
+                logger.log_job_processing(
+                    "conditional_formatting_clear",
+                    "success",
+                    {"message": "Cleared existing formatting rules"}
+                )
+            except Exception as clear_error:
+                # Если нет правил для удаления или другая ошибка - логируем и продолжаем
+                logger.log_job_processing(
+                    "conditional_formatting_clear", 
+                    "info",
+                    {"message": f"No rules to clear or error: {str(clear_error)}"}
+                )
+
+            # Разделим правила на несколько групп для предотвращения ошибок размера запроса
+            # Группа 1: Форматирование базовых полей
+            basic_rules = [
                 # Format None values in salary columns
                 {
                     "addConditionalFormatRule": {
@@ -354,14 +390,13 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "None"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 1, "green": 0.8, "blue": 0.8},
-                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                    "backgroundColor": {"red": 1, "green": 0.8, "blue": 0.8}
                                 }
                             }
                         }
                     }
                 },
-                # Format Junior level (фиолетовый)
+                # Format Junior level
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -372,14 +407,13 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "junior"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 0.8, "green": 0.6, "blue": 0.9},
-                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                    "backgroundColor": {"red": 0.8, "green": 0.6, "blue": 0.9}
                                 }
                             }
                         }
                     }
                 },
-                # Format Middle level (жёлтый)
+                # Format Middle level
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -390,14 +424,13 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "middle"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 1, "green": 0.9, "blue": 0.4},
-                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                    "backgroundColor": {"red": 1, "green": 0.9, "blue": 0.4}
                                 }
                             }
                         }
                     }
                 },
-                # Format Senior level (зелёный)
+                # Format Senior level
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -408,14 +441,36 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "senior"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 0.5, "green": 0.9, "blue": 0.5},
-                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                    "backgroundColor": {"red": 0.5, "green": 0.9, "blue": 0.5}
                                 }
                             }
                         }
                     }
-                },
-                # Format high RUB salaries
+                }
+            ]
+
+            # Применяем первую группу правил
+            try:
+                self.service.spreadsheets().batchUpdate(
+                    spreadsheetId=self.sheet_id,
+                    body={"requests": basic_rules}
+                ).execute()
+
+                logger.log_job_processing(
+                    "conditional_formatting_group1",
+                    "success",
+                    {"rules_applied": len(basic_rules)}
+                )
+            except Exception as e1:
+                logger.log_error(
+                    "conditional_formatting_group1_error",
+                    str(e1),
+                    {}
+                )
+
+            # Группа 2: Форматирование зарплаты
+            salary_rules = [
+                # Format high salaries
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -430,7 +485,7 @@ class GoogleSheetsHandler:
                         }
                     }
                 },
-                # Format medium RUB salaries
+                # Format medium salaries
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -459,8 +514,7 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "USD"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 0.7, "green": 0.9, "blue": 0.7},
-                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                    "backgroundColor": {"red": 0.7, "green": 0.9, "blue": 0.7}
                                 }
                             }
                         }
@@ -480,25 +534,88 @@ class GoogleSheetsHandler:
                             }
                         }
                     }
-                },
-                # Format RUR in currency column (for older data)
+                }
+            ]
+
+            # Применяем вторую группу правил
+            try:
+                self.service.spreadsheets().batchUpdate(
+                    spreadsheetId=self.sheet_id,
+                    body={"requests": salary_rules}
+                ).execute()
+
+                logger.log_job_processing(
+                    "conditional_formatting_group2",
+                    "success",
+                    {"rules_applied": len(salary_rules)}
+                )
+            except Exception as e2:
+                logger.log_error(
+                    "conditional_formatting_group2_error",
+                    str(e2),
+                    {}
+                )
+
+            # Группа 3: Длина заголовка - упрощаем формулы, используя TEXT_LENGTH вместо CUSTOM_FORMULA
+            title_length_rules = [
+                # Format Title Length > 30
                 {
                     "addConditionalFormatRule": {
                         "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 8, "endColumnIndex": 9}],
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
                             "booleanRule": {
                                 "condition": {
-                                    "type": "TEXT_EQ",
-                                    "values": [{"userEnteredValue": "RUR"}]
+                                    "type": "TEXT_LONGER_THAN",
+                                    "values": [{"userEnteredValue": "30"}]
                                 },
-                                "format": {"backgroundColor": {"red": 0.0, "green": 0.0, "blue": 0.9}}
+                                "format": {
+                                    "backgroundColor": {"red": 0.4, "green": 0.2, "blue": 0.6}
+                                }
                             }
                         }
                     }
                 },
+                # Format Title Length < 5
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_SHORTER_THAN",
+                                    "values": [{"userEnteredValue": "5"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.2, "green": 0.5, "blue": 0.2}
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
 
-                # Location formatting rules
-                # Format Москва (тёмный с оттенком фиолетового)
+            # Применяем третью группу правил
+            try:
+                self.service.spreadsheets().batchUpdate(
+                    spreadsheetId=self.sheet_id,
+                    body={"requests": title_length_rules}
+                ).execute()
+
+                logger.log_job_processing(
+                    "conditional_formatting_group3",
+                    "success",
+                    {"rules_applied": len(title_length_rules)}
+                )
+            except Exception as e3:
+                logger.log_error(
+                    "conditional_formatting_group3_error",
+                    str(e3),
+                    {}
+                )
+
+            # Группа 4: Локации - первая часть
+            location_rules_1 = [
+                # Format Москва
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -509,14 +626,13 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "Москва"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 0.4, "green": 0.2, "blue": 0.6},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                    "backgroundColor": {"red": 0.4, "green": 0.2, "blue": 0.6}
                                 }
                             }
                         }
                     }
                 },
-                # Format Санкт-Петербург (тёмный с оттенком жёлтого)
+                # Format Санкт-Петербург
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -527,14 +643,13 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "Санкт-Петербург"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 0.6, "green": 0.5, "blue": 0.1},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                    "backgroundColor": {"red": 0.6, "green": 0.5, "blue": 0.1}
                                 }
                             }
                         }
                     }
                 },
-                # Format США (тёмный с оттенком зелёного)
+                # Format США
                 {
                     "addConditionalFormatRule": {
                         "rule": {
@@ -545,243 +660,7 @@ class GoogleSheetsHandler:
                                     "values": [{"userEnteredValue": "США"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 0.2, "green": 0.5, "blue": 0.2},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Барнаул (яркий с оттенком жёлтого и зелёного)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "Барнаул"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.8, "green": 0.9, "blue": 0.3},
-                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Алматы (тёмный с оттенком синего)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "Алматы"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.1, "green": 0.3, "blue": 0.7},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Армения (тёмный с оттенком красного)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "Армения"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.6, "green": 0.1, "blue": 0.1},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Минск (тёмный с оттенком зелёного и синего)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "Минск"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.1, "green": 0.4, "blue": 0.5},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Екатеринбург (тёмный с оттенком фиолетового и синего)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "Екатеринбург"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.3, "green": 0.1, "blue": 0.5},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Белгород (тёмный с оттенком красного и зелёного)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "Белгород"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.5, "green": 0.3, "blue": 0.1},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Тбилиси (тёмный с оттенком жёлтого и красного)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "Тбилиси"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.7, "green": 0.4, "blue": 0.1},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Сербия (тёмный с оттенком синего и жёлтого)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "Сербия"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.2, "green": 0.3, "blue": 0.6},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Астана (тёмный с оттенком розового)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "Астана"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.6, "green": 0.2, "blue": 0.4},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Всеволожск (тёмный с оттенком жёлтого и розового)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "Всеволожск"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.7, "green": 0.5, "blue": 0.4},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-
-                # Format Title Length > 30 (тёмный с оттенком фиолетового)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=LEN(B:B)>30"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.4, "green": 0.2, "blue": 0.6},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Title Length < 30 (тёмный с оттенком жёлтого)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=AND(LEN(B:B)<=30,LEN(B:B)>=5)"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.6, "green": 0.5, "blue": 0.1},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
-                                }
-                            }
-                        }
-                    }
-                },
-                # Format Title Length < 5 (тёмный с оттенком зелёного)
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "CUSTOM_FORMULA",
-                                    "values": [{"userEnteredValue": "=LEN(B:B)<5"}]
-                                },
-                                "format": {
-                                    "backgroundColor": {"red": 0.2, "green": 0.5, "blue": 0.2},
-                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                    "backgroundColor": {"red": 0.2, "green": 0.5, "blue": 0.2}
                                 }
                             }
                         }
@@ -789,37 +668,30 @@ class GoogleSheetsHandler:
                 }
             ]
 
+            # Применяем четвертую группу правил
             try:
-                # First try to delete any existing rules
                 self.service.spreadsheets().batchUpdate(
                     spreadsheetId=self.sheet_id,
-                    body={
-                        "requests": [{
-                            "deleteConditionalFormatRule": {
-                                "sheetId": sheet_id,
-                                "index": 0
-                            }
-                        }]
-                    }
+                    body={"requests": location_rules_1}
                 ).execute()
-            except Exception as delete_error:
-                # If there are no rules to delete, just log and continue
+
                 logger.log_job_processing(
-                    "conditional_formatting",
-                    "info",
-                    {"message": "No existing rules to delete"}
+                    "conditional_formatting_group4",
+                    "success",
+                    {"rules_applied": len(location_rules_1)}
+                )
+            except Exception as e4:
+                logger.log_error(
+                    "conditional_formatting_group4_error",
+                    str(e4),
+                    {}
                 )
 
-            # Apply new formatting rules
-            self.service.spreadsheets().batchUpdate(
-                spreadsheetId=self.sheet_id,
-                body={"requests": requests}
-            ).execute()
-
+            # Общий успех
             logger.log_job_processing(
                 "conditional_formatting",
                 "success",
-                {"rules_applied": len(requests)}
+                {"total_rules_applied": len(basic_rules) + len(salary_rules) + len(title_length_rules) + len(location_rules_1)}
             )
 
         except Exception as e:
@@ -828,4 +700,9 @@ class GoogleSheetsHandler:
                 str(e),
                 {}
             )
-            raise
+            # Просто логируем ошибку, но не прерываем инициализацию
+            logger.log_job_processing(
+                "conditional_formatting",
+                "continue_despite_error",
+                {"message": "Continuing despite formatting errors"}
+            )
