@@ -13,8 +13,19 @@ LOGS_WORKSHEET = "Logs"
 
 # Job Search Configuration
 EXPERIENCE_LEVELS = {
-    "junior": ["junior", "младший", "beginning", "начинающий", "0-1", "1-3"],
-    "middle": ["middle", "миддл", "средний", "2-4", "3-5"]
+    "junior": [
+        "junior", "младший", "начинающий", "стажер", "без опыта", "intern",
+        "entry level", "entry-level", "0-1 year", "0-1 года", "student", "студент"
+    ],
+    "middle": [
+        "middle", "миддл", "опыт от 2", "опыт от 3", "2+ years", "3+ years", 
+        "2-3 года", "3-5 лет", "опытный", "experienced"
+    ],
+    "senior": [
+        "senior", "старший", "ведущий", "lead", "опыт от 5", "опыт от 6",
+        "5+ years", "6+ years", "5-7 лет", "архитектор", "team lead",
+        "тимлид", "tech lead", "principal", "эксперт"
+    ]
 }
 
 # HH.ru API Configuration

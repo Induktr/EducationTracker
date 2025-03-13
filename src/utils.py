@@ -16,8 +16,8 @@ def clean_job_description(description: str) -> str:
 
 def determine_experience_level(description: str) -> str:
     """
-    Determine if a job is junior or middle level based on keywords
-    Returns: "junior" or "middle"
+    Determine job experience level based on keywords
+    Returns: "junior", "middle", or "senior"
     """
     desc_lower = description.lower()
 
@@ -25,6 +25,8 @@ def determine_experience_level(description: str) -> str:
     junior_score = sum(1 for keyword in EXPERIENCE_LEVELS["junior"] 
                       if keyword in desc_lower)
     middle_score = sum(1 for keyword in EXPERIENCE_LEVELS["middle"] 
+                      if keyword in desc_lower)
+    senior_score = sum(1 for keyword in EXPERIENCE_LEVELS.get("senior", [])
                       if keyword in desc_lower)
 
     # Parse years of experience if mentioned
@@ -34,8 +36,16 @@ def determine_experience_level(description: str) -> str:
             junior_score += 2
         elif years <= 5:
             middle_score += 2
+        else:
+            senior_score += 2
 
-    return "junior" if junior_score >= middle_score else "middle"
+    # Determine level based on highest score
+    if senior_score > middle_score and senior_score > junior_score:
+        return "senior"
+    elif middle_score > junior_score:
+        return "middle"
+    else:
+        return "junior"
 
 def filter_recent_jobs(jobs: List[Dict[str, Any]], days: int = 30) -> List[Dict[str, Any]]:
     """Filter jobs posted within the last X days"""
