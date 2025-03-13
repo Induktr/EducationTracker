@@ -343,24 +343,757 @@ class GoogleSheetsHandler:
 
             # Formatting rules
             requests = [
-                # Format None values in salary columns
+                # 1. Локация: форматирование в зависимости от города
+                # Москва - темно-фиолетовый
                 {
                     "addConditionalFormatRule": {
                         "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 6, "endColumnIndex": 8}],
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
                             "booleanRule": {
                                 "condition": {
                                     "type": "TEXT_CONTAINS",
-                                    "values": [{"userEnteredValue": "None"}]
+                                    "values": [{"userEnteredValue": "Москва"}]
                                 },
                                 "format": {
-                                    "backgroundColor": {"red": 1, "green": 0.8, "blue": 0.8},
+                                    "backgroundColor": {"red": 0.3, "green": 0.1, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Санкт-Петербург - темно-желтый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Санкт-Петербург"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.4, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # США - темно-зеленый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "США"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.4, "blue": 0.2},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Барнаул - яркий желто-зеленый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Барнаул"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.7, "green": 0.8, "blue": 0.2},
                                     "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
                                 }
                             }
                         }
                     }
                 },
+                # Алматы - темно-синий
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Алматы"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.2, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Армения - темно-красный
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Армения"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.1, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Минск - темно-зелено-синий
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Минск"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.3, "blue": 0.4},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Екатеринбург - темно-фиолетово-синий
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Екатеринбург"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.3, "green": 0.1, "blue": 0.6},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Белгород - темно-красно-зеленый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Белгород"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.4, "green": 0.3, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Тбилиси - темно-желто-красный
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Тбилиси"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.3, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Сербия - темно-сине-желтый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Сербия"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.2, "green": 0.3, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Астана - темно-розовый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Астана"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.2, "blue": 0.4},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Всеволожск - темно-желто-розовый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 3, "endColumnIndex": 4}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Всеволожск"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.3, "blue": 0.4},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                # 2. Название: форматирование по длине
+                # Длина > 30 символов - темно-фиолетовый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=LEN(B2)>30"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.3, "green": 0.1, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Длина < 30 символов - темно-желтый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(LEN(B2)<=30,LEN(B2)>=5)"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.4, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Длина < 5 символов - темно-зеленый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 1, "endColumnIndex": 2}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=LEN(B2)<5"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.4, "blue": 0.2},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                # 3. Компания: форматирование по длине компании
+                # Компания длина > 15 символов - темно-синий
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 2, "endColumnIndex": 3}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=LEN(C2)>15"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.2, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Компания длина 8-15 символов - темно-зеленый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 2, "endColumnIndex": 3}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(LEN(C2)>=8,LEN(C2)<=15)"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.4, "blue": 0.2},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Компания длина < 8 символов - темно-красный
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 2, "endColumnIndex": 3}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=LEN(C2)<8"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.1, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                # 4. ID: форматирование по числам в ID
+                # ID содержит цифру 5 в 5 позиции и последняя цифра тоже 5 - фиолетовый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 0, "endColumnIndex": 1}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(MID(A2,5,1)=\"5\",RIGHT(A2,1)=\"5\")"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.6, "green": 0.3, "blue": 0.8},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # ID содержит цифру 7 в 5 позиции - синий
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 0, "endColumnIndex": 1}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=MID(A2,5,1)=\"7\""}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.2, "green": 0.4, "blue": 0.8},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # ID содержит цифру 3 в конце - желтый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 0, "endColumnIndex": 1}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=RIGHT(A2,1)=\"3\""}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.8, "green": 0.7, "blue": 0.2},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                # 5. Описание: форматирование содержимого
+                # Упоминаются языки программирования - темно-фиолетовый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 4, "endColumnIndex": 5}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Python"}, {"userEnteredValue": "JavaScript"}, {"userEnteredValue": "Java"}, {"userEnteredValue": "C++"}, {"userEnteredValue": "PHP"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.3, "green": 0.1, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Упоминается Junior - темно-синий
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 4, "endColumnIndex": 5}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Junior"}, {"userEnteredValue": "junior"}, {"userEnteredValue": "начинающий"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.2, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Упоминается Middle - темно-красный
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 4, "endColumnIndex": 5}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Middle"}, {"userEnteredValue": "middle"}, {"userEnteredValue": "миддл"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.1, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Упоминается Senior - темно-розовый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 4, "endColumnIndex": 5}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "Senior"}, {"userEnteredValue": "senior"}, {"userEnteredValue": "старший"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.2, "blue": 0.4},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Если ничего не упоминается - темно-желтый (чтобы не накладывалось форматирование)
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 4, "endColumnIndex": 5}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "NOT",
+                                    "conditionValues": [{
+                                        "type": "TEXT_CONTAINS",
+                                        "values": [{"userEnteredValue": "Python"}, {"userEnteredValue": "JavaScript"}, {"userEnteredValue": "Java"}, {"userEnteredValue": "C++"}, {"userEnteredValue": "PHP"}, {"userEnteredValue": "Junior"}, {"userEnteredValue": "junior"}, {"userEnteredValue": "Middle"}, {"userEnteredValue": "middle"}, {"userEnteredValue": "Senior"}, {"userEnteredValue": "senior"}]
+                                    }]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.4, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                # 6-7. Зарплата от/до: в зависимости от суммы в RUB
+                # Меньше 2000 рублей - темно-розовый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 6, "endColumnIndex": 8}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "AND",
+                                    "conditions": [
+                                        {"type": "NUMBER_LESS_THAN", "values": [{"userEnteredValue": "2000"}]},
+                                        {"type": "TEXT_EQ", "values": [{"userEnteredValue": "RUB"}], "relativeCellReference": {"columnOffset": 2}}
+                                    ]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.2, "blue": 0.4},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # 2000-100000 рублей - темно-желтый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 6, "endColumnIndex": 8}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "AND",
+                                    "conditions": [
+                                        {"type": "NUMBER_BETWEEN", "values": [{"userEnteredValue": "2000"}, {"userEnteredValue": "100000"}]},
+                                        {"type": "TEXT_EQ", "values": [{"userEnteredValue": "RUB"}], "relativeCellReference": {"columnOffset": 2}}
+                                    ]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.5, "green": 0.4, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Больше 100000 рублей - темно-синий
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 6, "endColumnIndex": 8}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "AND",
+                                    "conditions": [
+                                        {"type": "NUMBER_GREATER", "values": [{"userEnteredValue": "100000"}]},
+                                        {"type": "TEXT_EQ", "values": [{"userEnteredValue": "RUB"}], "relativeCellReference": {"columnOffset": 2}}
+                                    ]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.2, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                # 8. Ссылка: форматирование по типу ссылки
+                # Если ссылка содержит hh.ru - сине-зеленый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 9, "endColumnIndex": 10}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "hh.ru"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.4, "blue": 0.4},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Если ссылка содержит linkedin - сине-фиолетовый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 9, "endColumnIndex": 10}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "linkedin"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.2, "green": 0.2, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Если ссылка содержит superjob - желто-оранжевый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 9, "endColumnIndex": 10}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "superjob"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.8, "green": 0.5, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                # 9. Дата публикации: форматирование по возрасту
+                # Свежая вакансия (до 7 дней) - ярко-зеленый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 10, "endColumnIndex": 11}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=TODAY()-DATE(LEFT(K2,4),MID(K2,6,2),MID(K2,9,2))<=7"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.1, "green": 0.7, "blue": 0.2},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Средняя вакансия (7-14 дней) - желто-зеленый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 10, "endColumnIndex": 11}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(TODAY()-DATE(LEFT(K2,4),MID(K2,6,2),MID(K2,9,2))>7,TODAY()-DATE(LEFT(K2,4),MID(K2,6,2),MID(K2,9,2))<=14)"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.6, "green": 0.7, "blue": 0.2},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Старая вакансия (больше 14 дней) - тёмно-красный
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 10, "endColumnIndex": 11}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=TODAY()-DATE(LEFT(K2,4),MID(K2,6,2),MID(K2,9,2))>14"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.6, "green": 0.1, "blue": 0.1},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                # 10. Дата обработки: форматирование по времени суток
+                # Утро (6-12) - светло-желтый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 11, "endColumnIndex": 12}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(VALUE(MID(L2,12,2))>=6,VALUE(MID(L2,12,2))<12)"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.9, "green": 0.8, "blue": 0.4},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # День (12-18) - светло-голубой
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 11, "endColumnIndex": 12}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(VALUE(MID(L2,12,2))>=12,VALUE(MID(L2,12,2))<18)"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.6, "green": 0.8, "blue": 0.9},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Вечер (18-22) - тёмно-синий
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 11, "endColumnIndex": 12}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=AND(VALUE(MID(L2,12,2))>=18,VALUE(MID(L2,12,2))<22)"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.2, "green": 0.3, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                # Ночь (22-6) - тёмно-фиолетовый
+                {
+                    "addConditionalFormatRule": {
+                        "rule": {
+                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 11, "endColumnIndex": 12}],
+                            "booleanRule": {
+                                "condition": {
+                                    "type": "CUSTOM_FORMULA",
+                                    "values": [{"userEnteredValue": "=OR(VALUE(MID(L2,12,2))>=22,VALUE(MID(L2,12,2))<6)"}]
+                                },
+                                "format": {
+                                    "backgroundColor": {"red": 0.3, "green": 0.1, "blue": 0.5},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                # Форматирование уровней разработчика
                 # Format Junior level (фиолетовый)
                 {
                     "addConditionalFormatRule": {
@@ -415,35 +1148,22 @@ class GoogleSheetsHandler:
                         }
                     }
                 },
-                # Format high RUB salaries
+                
+                # Форматирование для None и валют
+                # Format None values in salary columns
                 {
                     "addConditionalFormatRule": {
                         "rule": {
                             "ranges": [{"sheetId": sheet_id, "startColumnIndex": 6, "endColumnIndex": 8}],
                             "booleanRule": {
                                 "condition": {
-                                    "type": "NUMBER_GREATER_THAN_EQ",
-                                    "values": [{"userEnteredValue": "40000"}]
+                                    "type": "TEXT_CONTAINS",
+                                    "values": [{"userEnteredValue": "None"}]
                                 },
-                                "format": {"backgroundColor": {"red": 0.7, "green": 0.9, "blue": 0.7}}
-                            }
-                        }
-                    }
-                },
-                # Format medium RUB salaries
-                {
-                    "addConditionalFormatRule": {
-                        "rule": {
-                            "ranges": [{"sheetId": sheet_id, "startColumnIndex": 6, "endColumnIndex": 8}],
-                            "booleanRule": {
-                                "condition": {
-                                    "type": "NUMBER_BETWEEN",
-                                    "values": [
-                                        {"userEnteredValue": "30000"},
-                                        {"userEnteredValue": "40000"}
-                                    ]
-                                },
-                                "format": {"backgroundColor": {"red": 1, "green": 1, "blue": 0.7}}
+                                "format": {
+                                    "backgroundColor": {"red": 1, "green": 0.8, "blue": 0.8},
+                                    "textFormat": {"foregroundColor": {"red": 0, "green": 0, "blue": 0}}
+                                }
                             }
                         }
                     }
@@ -476,7 +1196,10 @@ class GoogleSheetsHandler:
                                     "type": "TEXT_EQ",
                                     "values": [{"userEnteredValue": "RUB"}]
                                 },
-                                "format": {"backgroundColor": {"red": 0.0, "green": 0.0, "blue": 0.9}}
+                                "format": {
+                                    "backgroundColor": {"red": 0.0, "green": 0.0, "blue": 0.9},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
                             }
                         }
                     }
@@ -491,7 +1214,10 @@ class GoogleSheetsHandler:
                                     "type": "TEXT_EQ",
                                     "values": [{"userEnteredValue": "RUR"}]
                                 },
-                                "format": {"backgroundColor": {"red": 0.0, "green": 0.0, "blue": 0.9}}
+                                "format": {
+                                    "backgroundColor": {"red": 0.0, "green": 0.0, "blue": 0.9},
+                                    "textFormat": {"foregroundColor": {"red": 1, "green": 1, "blue": 1}}
+                                }
                             }
                         }
                     }
