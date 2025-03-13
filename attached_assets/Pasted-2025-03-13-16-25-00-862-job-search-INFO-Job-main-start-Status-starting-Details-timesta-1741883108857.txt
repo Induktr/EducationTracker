@@ -1,0 +1,21 @@
+2025-03-13 16:25:00,862 - job_search - INFO - Job main_start - Status: starting - Details: {'timestamp': '2025-03-13T16:25:00.862113'}
+2025-03-13 16:25:02,517 - job_search - ERROR - Error: conditional_formatting_error - Message: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1vy4H7pc6Kp-SzV7XL6gSDYgyfLuTZL3y_jQIjIxeINI:batchUpdate?alt=json returned "Invalid requests[23].addConditionalFormatRule: Invalid ConditionValue.userEnteredValue: =AND(LEN(B2)<=30,LEN(B2)>=5)". Details: "Invalid requests[23].addConditionalFormatRule: Invalid ConditionValue.userEnteredValue: =AND(LEN(B2)<=30,LEN(B2)>=5)"> - Details: {}
+2025-03-13 16:25:02,517 - job_search - ERROR - Error: sheets_init_error - Message: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1vy4H7pc6Kp-SzV7XL6gSDYgyfLuTZL3y_jQIjIxeINI:batchUpdate?alt=json returned "Invalid requests[23].addConditionalFormatRule: Invalid ConditionValue.userEnteredValue: =AND(LEN(B2)<=30,LEN(B2)>=5)". Details: "Invalid requests[23].addConditionalFormatRule: Invalid ConditionValue.userEnteredValue: =AND(LEN(B2)<=30,LEN(B2)>=5)"> - Details: {'credentials_type': 'dict'}
+2025-03-13 16:25:02,517 - job_search - ERROR - Error: main_execution_error - Message: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1vy4H7pc6Kp-SzV7XL6gSDYgyfLuTZL3y_jQIjIxeINI:batchUpdate?alt=json returned "Invalid requests[23].addConditionalFormatRule: Invalid ConditionValue.userEnteredValue: =AND(LEN(B2)<=30,LEN(B2)>=5)". Details: "Invalid requests[23].addConditionalFormatRule: Invalid ConditionValue.userEnteredValue: =AND(LEN(B2)<=30,LEN(B2)>=5)"> - Details: {}
+Traceback (most recent call last):
+  File "/home/runner/workspace/src/main.py", line 152, in <module>
+    main()
+  File "/home/runner/workspace/src/main.py", line 16, in main
+    sheets = GoogleSheetsHandler()
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/src/sheets_handler.py", line 32, in __init__
+    self.apply_conditional_formatting()
+  File "/home/runner/workspace/src/sheets_handler.py", line 817, in apply_conditional_formatting
+    ).execute()
+      ^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/googleapiclient/_helpers.py", line 130, in positional_wrapper
+    return wrapped(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/googleapiclient/http.py", line 938, in execute
+    raise HttpError(resp, content, uri=self.uri)
+googleapiclient.errors.HttpError: <HttpError 400 when requesting https://sheets.googleapis.com/v4/spreadsheets/1vy4H7pc6Kp-SzV7XL6gSDYgyfLuTZL3y_jQIjIxeINI:batchUpdate?alt=json returned "Invalid requests[23].addConditionalFormatRule: Invalid ConditionValue.userEnteredValue: =AND(LEN(B2)<=30,LEN(B2)>=5)". Details: "Invalid requests[23].addConditionalFormatRule: Invalid ConditionValue.userEnteredValue: =AND(LEN(B2)<=30,LEN(B2)>=5)">
